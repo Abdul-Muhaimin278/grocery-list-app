@@ -13,7 +13,7 @@ const initialState = {
   lists: [],
   status: "idle",
 };
-const categoryReducer = createSlice({
+export const categoryReducer = createSlice({
   name: "categories",
   initialState,
   reducer: {},
@@ -83,4 +83,3 @@ const categoryReducer = createSlice({
       });
   },
 });
-export default categoryReducer;

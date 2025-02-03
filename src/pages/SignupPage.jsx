@@ -1,89 +1,177 @@
+import { useState } from "react";
+import {
+  LuEye,
+  LuEyeOff,
+  LuLock,
+  LuMail,
+  LuShoppingBasket,
+} from "react-icons/lu";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Container,
   Form,
   FormGroup,
   Label,
-  Input,
   Button,
   Card,
   CardBody,
+  Spinner,
 } from "reactstrap";
-import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { signUp } from "../store/auth/AuthThunk";
 
 const SignupPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { status } = useSelector((state) => state.user);
+
+  const [AuthData, setAuthData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [showPassword, setShowPassword] = useState("");
+
+  const handleSignup = () => {
+    const { username, email, password } = AuthData;
+    dispatch(signUp({ username, email, password })).finally(() => {
+      navigate("/groceries-list");
+      setAuthData({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    });
+  };
+
+  const handleAuthData = (e) => {
+    const { name, value } = e.target;
+    setAuthData((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
-    <div className="signup-container d-flex align-items-center justify-content-center vh-100 bg-light">
-      <Container className="text-center">
-        <Card
-          className="shadow-sm p-3 bg-white rounded"
-          style={{ maxWidth: "400px", margin: "auto" }}
-        >
-          <CardBody>
-            <h3 className="mb-4">Create your account</h3>
-            <Form>
-              <FormGroup>
-                <Label for="fullName">Full Name</Label>
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <FaUser />
-                  </span>
-                  <Input type="text" id="fullName" placeholder="John Doe" />
-                </div>
-              </FormGroup>
+    <Container
+      fluid
+      className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light"
+    >
+      <div className="text-center my-3">
+        <LuShoppingBasket size="50px" color="#059669" className="my-2" />
+        <h2 className="my-2 fw-bold text-dark">Create an account</h2>
+      </div>
 
-              <FormGroup>
-                <Label for="email">Email Address</Label>
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <FaEnvelope />
-                  </span>
-                  <Input
-                    type="email"
-                    id="email"
-                    placeholder="you@example.com"
-                  />
+      <Card className="shadow-sm border-light p-4" style={{ width: "450px" }}>
+        <CardBody>
+          <Form>
+            <FormGroup className="mb-4">
+              <Label for="username" className="fw-medium text-dark mb-1">
+                Full Name
+              </Label>
+              <div className="input-div rounded">
+                <LuMail size="20px" color="#aaa" />
+                <input
+                  id="username"
+                  type="username"
+                  name="username"
+                  value={AuthData.username}
+                  placeholder="John Doe"
+                  required
+                  className="input-border"
+                  onChange={handleAuthData}
+                />
+              </div>
+            </FormGroup>
+            <FormGroup className="mb-4">
+              <Label for="email" className="fw-medium text-dark mb-1">
+                Email Address
+              </Label>
+              <div className="input-div rounded">
+                <LuMail size="20px" color="#aaa" />
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={AuthData.email}
+                  placeholder="you@example.com"
+                  required
+                  className="input-border"
+                  onChange={handleAuthData}
+                />
+              </div>
+            </FormGroup>
+            <FormGroup className="mb-4">
+              <Label for="password" className="fw-medium text-dark mb-1">
+                Password
+              </Label>
+              <div className="input-div rounded">
+                <LuLock size="20px" color="#aaa" />
+                <input
+                  id="password"
+                  name="password"
+                  value={AuthData.password}
+                  type={showPassword ? "text" : "password"}
+                  required
+                  className="input-border"
+                  onChange={handleAuthData}
+                />
+                <div
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {showPassword ? (
+                    <LuEyeOff size="20px" color="#aaa" />
+                  ) : (
+                    <LuEye size="20px" color="#aaa" />
+                  )}
                 </div>
-              </FormGroup>
+              </div>
+            </FormGroup>
+            <FormGroup className="mb-4">
+              <Label for="confirm" className="fw-medium text-dark mb-1">
+                Comfirm Password
+              </Label>
+              <div className="input-div rounded">
+                <LuLock size="20px" color="#aaa" />
+                <input
+                  id="confirm"
+                  type="password"
+                  name="confirmPassword"
+                  value={AuthData.confirmPassword}
+                  required
+                  className="input-border"
+                  onChange={handleAuthData}
+                />
+              </div>
+            </FormGroup>
 
-              <FormGroup>
-                <Label for="password">Password</Label>
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <FaLock />
-                  </span>
-                  <Input
-                    type="password"
-                    id="password"
-                    placeholder="Enter password"
-                  />
-                </div>
-              </FormGroup>
-
-              <FormGroup>
-                <Label for="confirmPassword">Confirm Password</Label>
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <FaLock />
-                  </span>
-                  <Input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Confirm password"
-                  />
-                </div>
-              </FormGroup>
-
-              <Button color="success" block className="mt-3">
-                Create Account
-              </Button>
-            </Form>
-            <p className="mt-3">
-              Already have an account? <a href="/signin">Sign in</a>
+            <Button
+              color="success"
+              block
+              className="mt-3 py-1"
+              onClick={handleSignup}
+            >
+              {status === "signing up" ? (
+                <Spinner size="sm" />
+              ) : (
+                "Create account"
+              )}
+            </Button>
+          </Form>
+          <div className="mt-4 text-center">
+            <p className="text-muted">
+              Already have an account?
+              <Link
+                to="/auth/login"
+                className="text-success text-decoration-none"
+              >
+                {` Sign in`}
+              </Link>
             </p>
-          </CardBody>
-        </Card>
-      </Container>
-    </div>
+          </div>
+        </CardBody>
+      </Card>
+    </Container>
   );
 };
 

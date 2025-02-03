@@ -7,11 +7,12 @@ import {
   fetchCategory,
   removeCategory,
 } from "../../store/category/categoryThunk";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { categoryId } = useParams();
 
   const { categories, status } = useSelector((state) => state.category);
 
@@ -97,19 +98,22 @@ const Sidebar = () => {
         </div>
       ) : (
         <div className="category-list">
-          {categories?.map(({ categoryId, name }) => (
+          {categories?.map(({ categoryId: catID, name }) => (
             <div
-              className="row justify-content-between align-items-center category-item ps-3 pb-1"
-              key={categoryId}
-              onClick={() => handleGetLists(categoryId)}
+              className={`row justify-content-between align-items-center category-item ps-3 pb-1 ${
+                categoryId === catID && "active-category"
+              }`}
+              key={catID}
+              style={{ cursor: "pointer" }}
+              onClick={() => handleGetLists(catID)}
             >
               <p className="col rounded-3 py-2 fw-medium m-0">{name}</p>
               <Button
                 color="link"
                 className="col-2 p-0"
-                onClick={() => handleRemoveCategory(categoryId)}
+                onClick={() => handleRemoveCategory(catID)}
               >
-                {status === "removing" && categoryDel === categoryId ? (
+                {status === "removing" && categoryDel === catID ? (
                   <Spinner color="secondary" size="sm" />
                 ) : (
                   <LuX color="#9CA3AF" />

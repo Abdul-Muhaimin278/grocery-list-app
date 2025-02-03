@@ -1,5 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .border-dashed {
-  border: 2px dashed #ccc !important;
+  border: 2px dashed #eeeeee !important;
 }
 
 .sidebar {
@@ -22,6 +28,66 @@
   background: #f1fdf4;
   color: black;
 }
+.active-category p {
+  background: #f1fdf4 !important;
+  color: black !important;
+}
 .category-item button {
   font-size: 18px;
 }
+
+/* Custom styles */
+.input-div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #05966887 !important;
+  padding: 6px;
+}
+
+.input-border {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent !important;
+  min-width: 0;
+}
+.input-border:focus {
+  background: transparent !important;
+}
+.input-border::placeholder {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+.input-border:-webkit-autofill,
+.input-border:-webkit-autofill:hover,
+.input-border:-webkit-autofill:focus,
+.input-border:-webkit-autofill:active {
+  background: transparent !important;
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  color: inherit !important;
+}
+
+.input-div:has(.input-border:focus) {
+  box-shadow: none;
+  border: 1px solid #059669 !important;
+}
+
+/* button {
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #047a4d;
+}
+
+button:focus {
+  box-shadow: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+} */
