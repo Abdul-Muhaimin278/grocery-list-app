@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import GroceryLayout from "../layout/GroceryLayout";
 import MainLayout from "../layout/MainLayout";
 import AuthLayout from "../layout/AuthLayout";
@@ -40,4 +40,5 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  { path: "*", element: <Navigate to="/auth/login" replace /> },
 ]);
