@@ -1,36 +1,29 @@
-/* eslint-disable no-unused-vars */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { db } from "../../config/firebase.js";
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
   getDocs,
-  onSnapshot,
+  query,
   setDoc,
+  where,
 } from "firebase/firestore";
 
 export const fetchCategory = createAsyncThunk(
   "category/fetchCategory",
-  async (_, { rejectWithValue }) => {
-    const categoriesRef = collection(db, "categories");
-
+  async (uid, { rejectWithValue }) => {
     try {
-      return await new Promise((resolve, reject) => {
-        const unsubscribe = onSnapshot(
-          categoriesRef,
-          (snapshot) => {
-            const categories = snapshot.docs.map((doc) => ({
-              ...doc.data(),
-            }));
-            resolve(categories);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      });
+      const categoriesRef = collection(db, "categories");
+      const q = query(categoriesRef, where("createdBy", "==", uid));
+      const querySnapshot = await getDocs(q);
+
+      const categories = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return categories;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -54,13 +47,14 @@ export const fetchLists = createAsyncThunk(
 
 export const addCategory = createAsyncThunk(
   "category/addCategory",
-  async (categoryName, { rejectWithValue }) => {
+  async ({ categoryName, uid }, { rejectWithValue }) => {
     try {
       const docRef = doc(collection(db, "categories"));
 
       const payload = {
         name: categoryName,
         categoryId: docRef.id,
+        createdBy: uid,
         createdAt: Date.now(),
       };
       await setDoc(docRef, payload);

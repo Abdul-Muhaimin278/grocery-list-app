@@ -19,13 +19,13 @@ import {
 } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signOutAction } from "../store/auth/AuthThunk";
+import { signIn } from "../store/auth/AuthThunk";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { status } = useSelector((state) => state.auth);
 
-  const { status } = useSelector((state) => state.user);
   const [authData, setAuthData] = useState({
     email: "",
     password: "",
@@ -37,9 +37,10 @@ const LoginPage = () => {
     setAuthData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     const { email, password } = authData;
-    dispatch(signOutAction({ email, password })).finally(() => {
+    dispatch(signIn({ email, password })).finally(() => {
       navigate("/groceries-list");
       setAuthData({
         email: "",
@@ -59,7 +60,7 @@ const LoginPage = () => {
 
       <Card className="shadow-sm border-light p-4" style={{ width: "450px" }}>
         <CardBody>
-          <Form>
+          <Form onSubmit={handleLogin}>
             <FormGroup className="mb-4">
               <Label for="email" className="fw-medium text-dark mb-1">
                 Email Address
@@ -106,12 +107,7 @@ const LoginPage = () => {
               </div>
             </FormGroup>
 
-            <Button
-              color="success"
-              block
-              className="mt-3 py-1"
-              onClick={handleLogin}
-            >
+            <Button color="success" block type="submit" className="mt-3 py-1">
               {status === "signing in" ? <Spinner size="sm" /> : "Sign in"}
             </Button>
           </Form>

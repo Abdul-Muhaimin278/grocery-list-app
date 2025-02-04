@@ -11,24 +11,24 @@ export const signUp = createAsyncThunk(
   "auth/signUp",
   async ({ email, password, username }, { rejectWithValue }) => {
     try {
-      console.log(email, password, username);
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-      console.log(userCredential);
-
       const userDocRef = doc(db, "users", userCredential.user.uid);
       await setDoc(userDocRef, {
+        createdAt: Date.now(),
         uid: userCredential.user.uid,
         email: userCredential.user.email,
         password,
         username,
       });
 
-      return userCredential.user;
+      const uid = userCredential.user.uid;
+
+      return { email, uid };
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -44,7 +44,9 @@ export const signIn = createAsyncThunk(
         email,
         password
       );
-      return userCredential.user;
+      const uid = userCredential.user.uid;
+
+      return { email, uid };
     } catch (err) {
       return rejectWithValue(err.message);
     }

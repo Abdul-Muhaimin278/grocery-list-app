@@ -8,7 +8,7 @@ import { signOutAction } from "../store/auth/AuthThunk";
 const Header = ({ layout }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { status } = useSelector((state) => state.user);
+  const { status, user } = useSelector((state) => state.auth);
 
   const handleNavBarBrand = () => {
     navigate("/");
@@ -27,23 +27,13 @@ const Header = ({ layout }) => {
     <>
       <nav className="container-fluid px-4 py-3 border-bottom">
         <Row className="justify-content-between align-items-center">
-          <Col
-            md={4}
-            className="d-flex justify-content-center align-items-center"
-          >
+          <Col className="d-flex justify-content-start align-items-center">
             <LuShoppingBasket size="32px" color="#059669" className="mb-2" />
             <h5 className="mx-2 fw-bold" onClick={handleNavBarBrand}>
               GrocerySave
             </h5>
           </Col>
-          <Col
-            xl={3}
-            lg={5}
-            md={6}
-            sm={8}
-            xs={8}
-            className="d-flex justify-content-center align-items-center gap-2"
-          >
+          <Col className="d-flex justify-content-end align-items-center gap-2">
             {layout === "MainLayout" ? (
               <>
                 <Button color="light" onClick={handleLogin}>
@@ -59,7 +49,7 @@ const Header = ({ layout }) => {
               </>
             ) : (
               <>
-                <p className="m-0">Welcome, test@nextpak.org</p>
+                <p className="m-0">Welcome, {user}</p>
                 <Button color="success" onClick={handleLogout}>
                   {status === "signing out" ? <Spinner size="sm" /> : "logout"}
                 </Button>

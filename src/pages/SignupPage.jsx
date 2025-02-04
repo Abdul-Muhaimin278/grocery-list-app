@@ -23,7 +23,7 @@ import { signUp } from "../store/auth/AuthThunk";
 const SignupPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { status } = useSelector((state) => state.user);
+  const { status } = useSelector((state) => state.auth);
 
   const [AuthData, setAuthData] = useState({
     username: "",
@@ -33,7 +33,8 @@ const SignupPage = () => {
   });
   const [showPassword, setShowPassword] = useState("");
 
-  const handleSignup = () => {
+  const handleSignup = (e) => {
+    e.preventDefault();
     const { username, email, password } = AuthData;
     dispatch(signUp({ username, email, password })).finally(() => {
       navigate("/groceries-list");
@@ -63,7 +64,7 @@ const SignupPage = () => {
 
       <Card className="shadow-sm border-light p-4" style={{ width: "450px" }}>
         <CardBody>
-          <Form>
+          <Form onSubmit={handleSignup}>
             <FormGroup className="mb-4">
               <Label for="username" className="fw-medium text-dark mb-1">
                 Full Name
@@ -145,12 +146,7 @@ const SignupPage = () => {
               </div>
             </FormGroup>
 
-            <Button
-              color="success"
-              block
-              className="mt-3 py-1"
-              onClick={handleSignup}
-            >
+            <Button color="success" type="submit" block className="mt-3 py-1">
               {status === "signing up" ? (
                 <Spinner size="sm" />
               ) : (

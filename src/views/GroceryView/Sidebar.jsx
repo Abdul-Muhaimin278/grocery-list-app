@@ -15,6 +15,7 @@ const Sidebar = () => {
   const { categoryId } = useParams();
 
   const { categories, status } = useSelector((state) => state.category);
+  const { uid } = useSelector((state) => state.auth);
 
   const [showForm, setShowForm] = useState(false);
   const [categoryName, setCategoryName] = useState("");
@@ -23,7 +24,7 @@ const Sidebar = () => {
   const handleAddCategory = (e) => {
     e.preventDefault();
     if (categoryName) {
-      dispatch(addCategory(categoryName)).finally(() => {
+      dispatch(addCategory({ categoryName, uid })).finally(() => {
         setCategoryName("");
         setShowForm(false);
       });
@@ -40,8 +41,8 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchCategory());
-  }, [dispatch]);
+    dispatch(fetchCategory(uid));
+  }, [dispatch, uid]);
 
   return (
     <div className="border-end sidebar" style={{ width: "220px" }}>
