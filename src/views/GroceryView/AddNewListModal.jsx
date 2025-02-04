@@ -87,7 +87,12 @@ const AddNewListModal = ({ isOpen, toggle, catId }) => {
       </ModalBody>
 
       <ModalFooter className="border-0">
-        <Button color="success" block onClick={handleAddList}>
+        <Button
+          color="success"
+          block
+          onClick={handleAddList}
+          disabled={status === "adding lists"}
+        >
           {status === "adding lists" ? <Spinner size="sm" /> : "Create List"}
         </Button>
       </ModalFooter>

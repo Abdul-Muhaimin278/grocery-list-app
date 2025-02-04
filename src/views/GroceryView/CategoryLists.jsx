@@ -58,6 +58,7 @@ const CategoryLists = () => {
                   <Button
                     className="bg-light border-0"
                     onClick={() => handleRemoveList(listId)}
+                    disabled={status === "removing list"}
                   >
                     {status === "removing list" && listDel === listId ? (
                       <Spinner color="danger" size="sm" />

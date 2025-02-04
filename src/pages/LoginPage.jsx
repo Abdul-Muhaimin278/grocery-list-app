@@ -107,7 +107,13 @@ const LoginPage = () => {
               </div>
             </FormGroup>
 
-            <Button color="success" block type="submit" className="mt-3 py-1">
+            <Button
+              color="success"
+              block
+              type="submit"
+              className="mt-3 py-1"
+              disabled={status === "signing in"}
+            >
               {status === "signing in" ? <Spinner size="sm" /> : "Sign in"}
             </Button>
           </Form>

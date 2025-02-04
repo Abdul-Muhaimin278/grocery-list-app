@@ -50,7 +50,11 @@ const Header = ({ layout }) => {
             ) : (
               <>
                 <p className="m-0">Welcome, {user}</p>
-                <Button color="success" onClick={handleLogout}>
+                <Button
+                  color="success"
+                  onClick={handleLogout}
+                  disabled={status === "signing out"}
+                >
                   {status === "signing out" ? <Spinner size="sm" /> : "logout"}
                 </Button>
               </>

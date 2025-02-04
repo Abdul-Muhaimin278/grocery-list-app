@@ -146,7 +146,13 @@ const SignupPage = () => {
               </div>
             </FormGroup>
 
-            <Button color="success" type="submit" block className="mt-3 py-1">
+            <Button
+              color="success"
+              type="submit"
+              block
+              className="mt-3 py-1"
+              disabled={status === "signing up"}
+            >
               {status === "signing up" ? (
                 <Spinner size="sm" />
               ) : (
