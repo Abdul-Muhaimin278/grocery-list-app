@@ -35,7 +35,7 @@ const AddNewListModal = ({ isOpen, toggle, catId }) => {
 
   const handleAddList = () => {
     const listData = { listTitle, items };
-    dispatch(addList({ listData, categoryId: catId })).finally(toggle);
+    dispatch(addList({ listData, categoryId: catId })).finally(() => toggle());
   };
 
   return (

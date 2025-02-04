@@ -50,7 +50,7 @@ export const categoryReducer = createSlice({
         state.status = "failed";
       })
       .addCase(addList.pending, (state) => {
-        state.status = "adding";
+        state.status = "adding lists";
       })
       .addCase(addList.fulfilled, (state, action) => {
         state.lists.push(action.payload);
