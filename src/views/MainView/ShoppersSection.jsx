@@ -38,8 +38,8 @@ const ShoppersSection = () => {
             {cardsContent.map(({ icon, para, title, job }) => (
               <Col lg={4} key={title}>
                 <Card
-                  className="d-flex justify-content-between align-items-start px-4 py-2 border-light-subtle"
-                  style={{ height: "10rem" }}
+                  className="d-flex justify-content-between align-items-start py-3 px-2 border-light-subtle"
+                  style={{ height: "14rem" }}
                 >
                   <div className="d-flex align align-items-center justify-content-between">
                     <div className="bg-body-secondary rounded-circle px-4 py-3">

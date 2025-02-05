@@ -79,7 +79,7 @@ const WorksSection = () => {
             {steps.map(({ icon: Icon, title }, index) => (
               <button
                 key={index}
-                className={`btn text-start px-3 rounded-3 d-flex align-items-center ${
+                className={`btn border-0 text-start px-3 rounded-3 d-flex align-items-center ${
                   activeStep === index && activeBtnClass
                 }`}
                 onClick={() => setActiveStep(index)}
@@ -111,7 +111,7 @@ const WorksSection = () => {
             ))}
           </div>
         </Col>
-        <Col md={8} sm={12} className="border-0 shadow-lg">
+        <Col md={8} sm={12} className="border-0 shadow-lg p-0">
           <Card className="border-0">
             <CardBody className="border-0">
               <h3>{steps[activeStep].title}</h3>
@@ -119,7 +119,7 @@ const WorksSection = () => {
               <Row className="d-flex justify-content-between mt-4">
                 {steps[activeStep].triIcons.map(({ icon: Icon, text }) => (
                   <Col key={text} className="text-center">
-                    <div className="d-flex flex-column align-items-center justify-content-center bg-light p-3 py-3 rounded shadow-sm">
+                    <div className="d-flex flex-column align-items-center justify-content-center bg-light px-3 py-4 rounded shadow-sm">
                       <Icon size="24" color="#059669" />
                       <p className="mt-2 fw-medium text-secondary">{text}</p>
                     </div>

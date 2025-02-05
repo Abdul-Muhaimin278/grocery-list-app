@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { categoryReducer } from "./category/categorySlice";
-import { authReducer } from "./auth/AuthSlice";
+import { authReducer } from "./auth/authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 
 const authPersistConfig = {
   key: "auth",
   storage,
-  whitelist: ["user"],
+  whitelist: ["user", "uid"],
 };
 
 const persistedAuthReducer = persistReducer(

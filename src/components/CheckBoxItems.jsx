@@ -3,20 +3,20 @@ import { useState } from "react";
 import { LuCircleCheckBig } from "react-icons/lu";
 import { LuCircle } from "react-icons/lu";
 
-export const CheckboxItem = ({ label }) => {
+export const CheckboxItem = ({ label, id }) => {
   const [checked, setChecked] = useState(false);
 
   return (
     <div className="checkbox-container">
       <input
         type="checkbox"
-        id={label}
+        id={id}
         checked={checked}
         onChange={() => setChecked(!checked)}
         className="d-none"
       />
       <label
-        htmlFor={label}
+        htmlFor={id}
         className="d-flex align-items-center justify-content-start"
       >
         {checked ? (

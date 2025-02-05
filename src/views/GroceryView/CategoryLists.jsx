@@ -35,13 +35,13 @@ const CategoryLists = () => {
   }, [categoryId, dispatch]);
 
   return (
-    <section className="bg-body-tertiary mx-2">
+    <section className="bg-body-tertiary mx-2 d-flex flex-column flex-grow-1 overflow-auto">
       {status === "fetching lists" ? (
-        <div className="my-5 d-flex align-items-center justify-content-center">
+        <div className="my-5 d-flex align-items-center justify-content-center flex-grow-1">
           <Spinner color="success" />
         </div>
       ) : (
-        <Container fluid className="p-4">
+        <Container fluid className="p-4 flex-grow-1 d-flex flex-column">
           <button
             className="mb-3 btn text-white d-flex justify-content-center align-items-center"
             style={{ width: "160px", backgroundColor: "#047857" }}
@@ -50,33 +50,38 @@ const CategoryLists = () => {
             <LuPlus className="me-2" />
             Add List
           </button>
-          {lists?.map(({ listId, listTitle, items }) => (
-            <Card key={listId} className="my-4">
-              <CardBody>
-                <div className="border-0 d-flex justify-content-between">
-                  <h5>{listTitle}</h5>
-                  <Button
-                    className="bg-light border-0"
-                    onClick={() => handleRemoveList(listId)}
-                    disabled={status === "removing list"}
-                  >
-                    {status === "removing list" && listDel === listId ? (
-                      <Spinner color="danger" size="sm" />
-                    ) : (
-                      <LuTrash color="red" size="20px" />
-                    )}
-                  </Button>
-                </div>
-                {items?.map((item, index) => (
-                  <List key={index}>
-                    <ListGroupItem tag="label" className="py-2">
-                      <CheckboxItem label={item} />
-                    </ListGroupItem>
-                  </List>
-                ))}
-              </CardBody>
-            </Card>
-          ))}
+          <div className="overflow-auto flex-grow-1">
+            {lists?.map(({ listId, listTitle, items }) => (
+              <Card key={listId} className="my-4">
+                <CardBody>
+                  <div className="border-0 d-flex justify-content-between">
+                    <h5>{listTitle}</h5>
+                    <Button
+                      className="bg-light border-0"
+                      onClick={() => handleRemoveList(listId)}
+                      disabled={status === "removing list"}
+                    >
+                      {status === "removing list" && listDel === listId ? (
+                        <Spinner color="danger" size="sm" />
+                      ) : (
+                        <LuTrash color="red" size="20px" />
+                      )}
+                    </Button>
+                  </div>
+                  {items?.map((item, index) => (
+                    <List key={index}>
+                      <ListGroupItem tag="label" className="py-2">
+                        <CheckboxItem
+                          label={item}
+                          id={`${listTitle}-${item}-${index}`}
+                        />
+                      </ListGroupItem>
+                    </List>
+                  ))}
+                </CardBody>
+              </Card>
+            ))}
+          </div>
           <div className="p-4">
             <AddNewListModal
               catId={categoryId}

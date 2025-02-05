@@ -28,7 +28,10 @@ const Header = ({ layout }) => {
       <Container fluid>
         <nav className="container px-4 py-3 border-bottom">
           <Row className=" justify-content-between align-items-center">
-            <Col className="d-flex justify-content-start align-items-center">
+            <Col
+              className="d-flex justify-content-start align-items-center"
+              style={{ cursor: "pointer" }}
+            >
               <LuShoppingBasket size="32px" color="#059669" className="mb-2" />
               <h5 className="mx-2 fw-bold" onClick={handleNavBarBrand}>
                 GrocerySave
