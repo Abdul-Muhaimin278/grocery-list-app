@@ -18,7 +18,7 @@ import {
   CardBody,
   Spinner,
 } from "reactstrap";
-import { signUp } from "../store/auth/AuthThunk";
+import { signUp } from "../store/auth/authThunk";
 import { toast } from "react-toastify";
 
 const SignupPage = () => {
