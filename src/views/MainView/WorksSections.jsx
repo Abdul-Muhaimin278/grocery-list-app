@@ -14,7 +14,6 @@ import {
   LuTrendingUp,
   LuWallet,
 } from "react-icons/lu";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const steps = [
   {
