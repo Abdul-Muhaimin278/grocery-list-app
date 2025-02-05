@@ -19,6 +19,7 @@ import {
   Spinner,
 } from "reactstrap";
 import { signUp } from "../store/auth/AuthThunk";
+import { toast } from "react-toastify";
 
 const SignupPage = () => {
   const dispatch = useDispatch();
@@ -35,16 +36,20 @@ const SignupPage = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    const { username, email, password } = AuthData;
-    dispatch(signUp({ username, email, password })).finally(() => {
-      navigate("/groceries-list");
-      setAuthData({
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+    const { username, email, password, confirmPassword } = AuthData;
+    if (password === confirmPassword) {
+      dispatch(signUp({ username, email, password })).finally(() => {
+        navigate("/groceries-list");
+        setAuthData({
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
       });
-    });
+    } else {
+      toast.error("The passwords do not match");
+    }
   };
 
   const handleAuthData = (e) => {
