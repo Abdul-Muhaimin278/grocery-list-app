@@ -25,8 +25,8 @@ const Header = ({ layout }) => {
   };
   return (
     <>
-      <Container fluid>
-        <nav className="container px-4 py-3 border-bottom">
+      <Container fluid className="border-bottom">
+        <nav className="container px-4 py-3">
           <Row className=" justify-content-between align-items-center">
             <Col
               className="d-flex justify-content-start align-items-center"

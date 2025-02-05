@@ -24,10 +24,11 @@ const CategoryLists = () => {
   const [listDel, setListDel] = useState(null);
 
   const handleRemoveList = (listId) => {
+    console.log(listId);
     setListDel(listId);
-    dispatch(removeList({ categoryId, listId })).finally(() =>
-      setListDel(null)
-    );
+    dispatch(removeList({ categoryId, listId }))
+      .unwrap()
+      .finally(() => setListDel(null));
   };
 
   useEffect(() => {

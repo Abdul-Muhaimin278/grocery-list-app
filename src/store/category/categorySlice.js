@@ -76,7 +76,9 @@ export const categoryReducer = createSlice({
       })
       .addCase(removeList.fulfilled, (state, action) => {
         state.status = "succeeded list";
-        state.lists = state.lists.filter((list) => list.id !== action.payload);
+        state.lists = state.lists.filter(
+          (list) => list.listId !== action.payload
+        );
       })
       .addCase(removeList.rejected, (state, action) => {
         state.error = action.payload;

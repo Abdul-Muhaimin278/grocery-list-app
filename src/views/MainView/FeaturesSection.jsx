@@ -35,8 +35,8 @@ const FeaturesSection = () => {
           <div className="row justify-content-between align-items-center">
             {cardsContent.map(({ icon: Icon, para, title }) => (
               <Col lg={4} key={title}>
-                <Card className="d-flex justify-content-between align-items-start  px-3 py-2">
-                  <div className="bg-body-secondary rounded-3 p-2 my-2">
+                <Card className="d-flex justify-content-between align-items-start rounded-3 border-light-subtle  px-3 py-2">
+                  <div className="bg-body-secondary p-2 my-2">
                     <Icon color="#059669" size="25px" />
                   </div>
                   <h5 className="my-2">{title}</h5>

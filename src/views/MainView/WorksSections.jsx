@@ -72,13 +72,13 @@ const WorksSection = () => {
           Get started in minutes and save hours every week
         </p>
       </Row>
-      <Row className="justify-content-between">
-        <Col md={3} sm={12}>
+      <Row className="justify-content-center gx-5">
+        <Col md={4} sm={12} className="">
           <div className="d-flex flex-column gap-3">
             {steps.map(({ icon: Icon, title }, index) => (
               <button
                 key={index}
-                className={`btn border-0 text-start px-3 rounded-3 d-flex align-items-center ${
+                className={`btn border-0 text-start px-3 py-2 rounded-3 d-flex align-items-center ${
                   activeStep === index && activeBtnClass
                 }`}
                 onClick={() => setActiveStep(index)}
@@ -110,10 +110,10 @@ const WorksSection = () => {
             ))}
           </div>
         </Col>
-        <Col md={8} sm={12} className="border-0 shadow-lg p-0">
-          <Card className="border-0">
-            <CardBody className="border-0">
-              <h3>{steps[activeStep].title}</h3>
+        <Col md={7} sm={12} className="shadow-sm p-0 rounded-5 ms-5">
+          <Card className="border-light-subtle rounded-4">
+            <CardBody className="py-5 px-4">
+              <h4 className="fw-bold">{steps[activeStep].title}</h4>
               <p>{steps[activeStep].content}</p>
               <Row className="d-flex justify-content-between mt-4">
                 {steps[activeStep].triIcons.map(({ icon: Icon, text }) => (
