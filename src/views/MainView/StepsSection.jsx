@@ -58,8 +58,8 @@ const steps = [
   },
 ];
 
-const WorksSection = () => {
-  const [activeStep, setActiveStep] = useState(1);
+const StepsSection = () => {
+  const [activeStep, setActiveStep] = useState(0);
 
   const activeBtnClass =
     "shadow-lg border-top-0 border-bottom-0 border-end-0 border-start border-5 border-success";
@@ -151,4 +151,4 @@ const WorksSection = () => {
   );
 };
 
-export default WorksSection;
+export default StepsSection;

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signIn, signOutAction, signUp } from "./AuthThunk";
+import { signIn, signOutAction, signUpAction } from "./AuthThunk";
 
 const initialState = {
   user: null,
@@ -13,16 +13,16 @@ export const authReducer = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signUp.pending, (state) => {
+      .addCase(signUpAction.pending, (state) => {
         state.status = "signing up";
       })
-      .addCase(signUp.fulfilled, (state, action) => {
+      .addCase(signUpAction.fulfilled, (state, action) => {
         const { uid, email } = action.payload;
         state.status = "singup succeeded";
         state.user = email;
         state.uid = uid;
       })
-      .addCase(signUp.rejected, (state) => {
+      .addCase(signUpAction.rejected, (state) => {
         state.status = "failed";
       })
       .addCase(signIn.pending, (state) => {

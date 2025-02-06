@@ -7,7 +7,7 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../../config/firebase";
 
-export const signUp = createAsyncThunk(
+export const signUpAction = createAsyncThunk(
   "auth/signUp",
   async ({ email, password, username }, { rejectWithValue }) => {
     try {

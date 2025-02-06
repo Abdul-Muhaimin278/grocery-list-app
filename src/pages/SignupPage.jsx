@@ -18,8 +18,8 @@ import {
   CardBody,
   Spinner,
 } from "reactstrap";
-import { signUp } from "../store/auth/authThunk";
 import { toast } from "react-toastify";
+import { signUpAction } from "../store/auth/AuthThunk.js";
 
 const SignupPage = () => {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const SignupPage = () => {
     e.preventDefault();
     const { username, email, password, confirmPassword } = AuthData;
     if (password === confirmPassword) {
-      dispatch(signUp({ username, email, password })).finally(() => {
+      dispatch(signUpAction({ username, email, password })).finally(() => {
         navigate("/groceries-list");
         setAuthData({
           username: "",
@@ -60,14 +60,14 @@ const SignupPage = () => {
   return (
     <Container
       fluid
-      className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light"
+      className="d-flex flex-column justify-content-center align-items-center pb-5 bg-light"
     >
       <div className="text-center my-3">
         <LuShoppingBasket size="50px" color="#059669" className="my-2" />
         <h2 className="my-2 fw-bold text-dark">Create an account</h2>
       </div>
 
-      <Card className="shadow-sm border-light p-4" style={{ width: "450px" }}>
+      <Card className="shadow-sm p-4 border-light" style={{ width: "450px" }}>
         <CardBody>
           <Form onSubmit={handleSignup}>
             <FormGroup className="mb-4">
@@ -166,7 +166,7 @@ const SignupPage = () => {
             </Button>
           </Form>
           <div className="mt-4 text-center">
-            <p className="text-muted">
+            <p className="text-muted m-0">
               Already have an account?
               <Link
                 to="/auth/login"
