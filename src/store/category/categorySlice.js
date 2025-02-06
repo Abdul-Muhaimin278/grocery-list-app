@@ -6,6 +6,8 @@ import {
   fetchLists,
   removeCategory,
   removeList,
+  updateCategory,
+  updateList,
 } from "./categoryThunk";
 
 const initialState = {
@@ -59,11 +61,40 @@ export const categoryReducer = createSlice({
       .addCase(addList.rejected, (state) => {
         state.status = "failed";
       })
+      .addCase(updateCategory.pending, (state) => {
+        state.status = "updating";
+      })
+      .addCase(updateCategory.fulfilled, (state, action) => {
+        const { categoryId, name } = action.payload;
+        const category = state.categories?.find(
+          (cat) => cat?.categoryId === categoryId
+        );
+        state.status = "succeeded";
+        category.name = name;
+      })
+      .addCase(updateCategory.rejected, (state) => {
+        state.status = "failed";
+      })
+      .addCase(updateList.pending, (state) => {
+        state.status = "updating list";
+      })
+      .addCase(updateList.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const index = state.lists?.findIndex(
+          (list) => list?.listId === action.payload.listId
+        );
+        if (index !== -1) {
+          state.lists[index] = action.payload;
+        }
+      })
+      .addCase(updateList.rejected, (state) => {
+        state.status = "failed";
+      })
       .addCase(removeCategory.pending, (state) => {
         state.status = "removing";
       })
       .addCase(removeCategory.fulfilled, (state, action) => {
-        state.categories = state.categories.filter(
+        state.categories = state.categories?.filter(
           ({ categoryId }) => categoryId !== action.payload
         );
         state.status = "succeeded";
@@ -76,8 +107,8 @@ export const categoryReducer = createSlice({
       })
       .addCase(removeList.fulfilled, (state, action) => {
         state.status = "succeeded list";
-        state.lists = state.lists.filter(
-          (list) => list.listId !== action.payload
+        state.lists = state.lists?.filter(
+          (list) => list?.listId !== action.payload
         );
       })
       .addCase(removeList.rejected, (state, action) => {

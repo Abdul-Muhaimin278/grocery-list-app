@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Modal,
   ModalHeader,
@@ -13,11 +12,12 @@ import {
 } from "reactstrap";
 import { LuPlus } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
-import { addList } from "../../store/category/categoryThunk";
+import { addList, updateList } from "../../store/category/categoryThunk";
 
-const AddNewListModal = ({ isOpen, toggle, catId }) => {
+const ListModal = ({ isOpen, toggle, catId, existingList }) => {
   const dispatch = useDispatch();
   const { status } = useSelector((state) => state.category);
+
   const [listTitle, setListTitle] = useState("");
   const [item, setItem] = useState("");
   const [items, setItems] = useState([]);
@@ -29,19 +29,47 @@ const AddNewListModal = ({ isOpen, toggle, catId }) => {
     }
   };
 
+  const clearForm = () => {
+    setListTitle("");
+    setItem("");
+    setItems("");
+  };
+
   const removeItem = (index) => {
     setItems(items.filter((_, idx) => idx !== index));
   };
 
-  const handleAddList = () => {
+  const handleSaveList = () => {
     const listData = { listTitle, items };
-    dispatch(addList({ listData, categoryId: catId })).finally(() => toggle());
+    if (existingList) {
+      dispatch(
+        updateList({ listData, categoryId: catId, listId: existingList.listId })
+      ).finally(() => {
+        toggle();
+        clearForm();
+      });
+    } else {
+      dispatch(addList({ listData, categoryId: catId })).finally(() => {
+        toggle();
+        clearForm();
+      });
+    }
   };
+
+  useEffect(() => {
+    if (existingList) {
+      setListTitle(existingList?.listTitle);
+      setItems(existingList?.items || []);
+    } else {
+      setListTitle("");
+      setItems([]);
+    }
+  }, [existingList]);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} centered>
       <ModalHeader toggle={toggle} className="border-0">
-        Add New List
+        {existingList ? "Update List" : "Add New List"}
       </ModalHeader>
       <ModalBody>
         <FormGroup>
@@ -73,7 +101,7 @@ const AddNewListModal = ({ isOpen, toggle, catId }) => {
           {items.length === 0 ? (
             <p className="text-center text-muted">No items added yet</p>
           ) : (
-            items.map((i, idx) => (
+            items?.map((i, idx) => (
               <div
                 key={idx}
                 className="d-flex justify-content-between align-items-center p-2 mb-2 bg-white border rounded"
@@ -90,14 +118,20 @@ const AddNewListModal = ({ isOpen, toggle, catId }) => {
         <Button
           color="success"
           block
-          onClick={handleAddList}
-          disabled={status === "adding lists"}
+          onClick={handleSaveList}
+          disabled={status === "adding lists" || status === "updating list"}
         >
-          {status === "adding lists" ? <Spinner size="sm" /> : "Create List"}
+          {status === "adding lists" || status === "updating list" ? (
+            <Spinner size="sm" />
+          ) : existingList ? (
+            "Update List"
+          ) : (
+            "Create List"
+          )}
         </Button>
       </ModalFooter>
     </Modal>
   );
 };
 
-export default AddNewListModal;
+export default ListModal;

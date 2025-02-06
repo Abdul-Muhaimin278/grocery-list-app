@@ -7,7 +7,7 @@ import {
   LuCirclePlus,
   LuListPlus,
   LuSearch,
-  LuShare,
+  LuShare2,
   LuSmartphone,
   LuStore,
   LuTag,
@@ -22,7 +22,7 @@ const steps = [
     icon: LuListPlus,
     triIcons: [
       { icon: LuStore, text: "Organize by store" },
-      { icon: LuShare, text: "Share with family" },
+      { icon: LuShare2, text: "Share with family" },
       { icon: LuBell, text: "Set reminders" },
     ],
   },
@@ -72,8 +72,8 @@ const StepsSection = () => {
           Get started in minutes and save hours every week
         </p>
       </Row>
-      <Row className="justify-content-center gx-5">
-        <Col md={4} sm={12} className="">
+      <Row className="justify-content-center steps-section">
+        <Col lg={4} md={12} className="mb-5">
           <div className="d-flex flex-column gap-3">
             {steps.map(({ icon: Icon, title }, index) => (
               <button
@@ -85,7 +85,7 @@ const StepsSection = () => {
               >
                 <div className="d-flex align-items-center">
                   <div
-                    className="d-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle"
+                    className="d-flex align-items-center justify-content-center rounded-circle bg-white"
                     style={{ width: "2.5rem", height: "2.5rem" }}
                   >
                     <Icon size="24" color="#059669" />
@@ -110,18 +110,26 @@ const StepsSection = () => {
             ))}
           </div>
         </Col>
-        <Col md={7} sm={12} className="shadow-sm p-0 rounded-5 ms-5">
-          <Card className="border-light-subtle rounded-4">
+        <Col
+          lg={7}
+          md={12}
+          className="shadow-lg h-100 rounded-4 p-0 ms-lg-5 mx-auto"
+        >
+          <Card className="border-light-subtle rounded-4 w-100">
             <CardBody className="py-5 px-4">
               <h4 className="fw-bold">{steps[activeStep].title}</h4>
               <p>{steps[activeStep].content}</p>
               <Row className="d-flex justify-content-between mt-4">
                 {steps[activeStep].triIcons.map(({ icon: Icon, text }) => (
                   <Col key={text} className="text-center">
-                    <div className="d-flex flex-column align-items-center justify-content-center bg-light px-3 py-4 rounded shadow-sm">
-                      <Icon size="24" color="#059669" />
-                      <p className="mt-2 fw-medium text-secondary">{text}</p>
-                    </div>
+                    <Card className="d-flex flex-column align-items-center justify-content-center bg-body-tertiary py-4 px-2 rounded shadow-sm border-0">
+                      <div className="p-2 rounded-circle bg-white">
+                        <Icon size="24" color="#059669" />
+                      </div>
+                      <small className="mt-2 mb-0 fw-medium text-secondary">
+                        {text}
+                      </small>
+                    </Card>
                   </Col>
                 ))}
               </Row>

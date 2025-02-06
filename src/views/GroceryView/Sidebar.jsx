@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { LuPlus, LuX } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Input, Spinner } from "reactstrap";
+import { Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
 import {
   addCategory,
   fetchCategory,
   removeCategory,
+  updateCategory,
 } from "../../store/category/categoryThunk";
 import { useNavigate, useParams } from "react-router-dom";
+import CategoryContent from "../../components/CategoryContent";
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categoryId } = useParams();
@@ -19,113 +20,106 @@ const Sidebar = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [categoryName, setCategoryName] = useState("");
-  const [categoryDel, setCategoryDel] = useState(null);
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [updatingCat, setUpdatingCat] = useState(false);
 
-  const handleAddCategory = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (categoryName) {
-      dispatch(addCategory({ categoryName, uid })).finally(() => {
-        setCategoryName("");
-        setShowForm(false);
-      });
+    if (!categoryName.trim()) return;
+
+    if (editingCategory) {
+      dispatch(
+        updateCategory({ categoryId: editingCategory, name: categoryName })
+      )
+        .unwrap()
+        .finally(() => resetForm());
+    } else {
+      dispatch(addCategory({ categoryName, uid }))
+        .unwrap()
+        .finally(() => resetForm());
     }
   };
 
-  const handleRemoveCategory = (id) => {
-    setCategoryDel(id);
-    dispatch(removeCategory(id)).finally(() => setCategoryDel(null));
+  const resetForm = () => {
+    setShowForm(false);
+    setEditingCategory(null);
+    setCategoryName("");
+    setUpdatingCat(false);
   };
 
-  const handleGetLists = (id) => {
-    navigate(`/groceries-list/${id}`);
+  const handleEdit = (id, name) => {
+    setUpdatingCat(true);
+    setShowForm(true);
+    setEditingCategory(id);
+    setCategoryName(name);
+  };
+
+  const handleDelete = (id) => {
+    dispatch(removeCategory(id));
   };
 
   useEffect(() => {
     dispatch(fetchCategory(uid));
   }, [dispatch, uid]);
 
+  useEffect(() => {
+    if (status === "success") {
+      dispatch(fetchCategory(uid));
+    }
+  }, [status, dispatch, uid]);
+
+  if (isMobile) {
+    // Render Offcanvas on Mobile
+    return (
+      <Offcanvas
+        isOpen={isOpen}
+        toggle={toggleSidebar}
+        style={{ width: "220px" }}
+      >
+        <OffcanvasHeader toggle={toggleSidebar}></OffcanvasHeader>
+        <OffcanvasBody>
+          <CategoryContent
+            categories={categories}
+            categoryId={categoryId}
+            navigate={navigate}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+            handleSubmit={handleSubmit}
+            showForm={showForm}
+            setShowForm={setShowForm}
+            categoryName={categoryName}
+            setCategoryName={setCategoryName}
+            resetForm={resetForm}
+            status={status}
+            updatingCat={updatingCat}
+          />
+        </OffcanvasBody>
+      </Offcanvas>
+    );
+  }
+
+  // Render Sidebar on Larger Screens
   return (
     <div className="border-end sidebar" style={{ width: "220px" }}>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="m-0">Categories</h5>
-        <Button
-          color="link"
-          className="btn text-success fs-5 p-0"
-          onClick={() => setShowForm(true)}
-        >
-          <LuPlus />
-        </Button>
-      </div>
-
-      {showForm && (
-        <div className="category-form p-3 mb-3">
-          <div className="d-flex justify-content-between align-items-center mb-2">
-            <small className="fw-medium m-0">New Category</small>
-            <Button
-              color="link"
-              className="text-muted p-0"
-              onClick={() => setShowForm(false)}
-            >
-              <LuX color="#9CA3AF" />
-            </Button>
-          </div>
-          <form onSubmit={handleAddCategory}>
-            <Input
-              type="text"
-              placeholder="Category name"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
-            />
-            <Button
-              color="success"
-              className="btn w-100 mt-3 text-white add-category-btn"
-              onClick={handleAddCategory}
-              type="submit"
-              disabled={status === "adding" || categoryName === ""}
-            >
-              {status === "adding" ? (
-                <Spinner size="sm" color="light" />
-              ) : (
-                "Add Category"
-              )}
-            </Button>
-          </form>
-        </div>
-      )}
-
-      {status === "fetching categories" ? (
-        <div className="h-25 d-flex justify-content-center align-items-center">
-          <Spinner color="success" />
-        </div>
-      ) : (
-        <div className="category-list">
-          {categories?.map(({ categoryId: catID, name }) => (
-            <div
-              className={`row justify-content-between align-items-center category-item ps-3 pb-1 ${
-                categoryId === catID && "active-category"
-              }`}
-              key={catID}
-              style={{ cursor: "pointer" }}
-              onClick={() => handleGetLists(catID)}
-            >
-              <p className="col rounded-3 py-2 fw-medium m-0">{name}</p>
-              <Button
-                color="link"
-                className="col-2 p-0"
-                onClick={() => handleRemoveCategory(catID)}
-              >
-                {status === "removing" && categoryDel === catID ? (
-                  <Spinner color="secondary" size="sm" />
-                ) : (
-                  <LuX color="#9CA3AF" />
-                )}
-              </Button>
-            </div>
-          ))}
-        </div>
-      )}
+      <CategoryContent
+        categories={categories}
+        categoryId={categoryId}
+        navigate={navigate}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        handleSubmit={handleSubmit}
+        showForm={showForm}
+        setShowForm={setShowForm}
+        categoryName={categoryName}
+        setCategoryName={setCategoryName}
+        resetForm={resetForm}
+        status={status}
+        updatingCat={updatingCat}
+      />
     </div>
   );
 };
+
+// Extracted Category Content for Reusability
 
 export default Sidebar;

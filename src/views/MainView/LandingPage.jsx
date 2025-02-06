@@ -103,9 +103,9 @@ const LandingPage = () => {
           </div>
 
           <div className="row justify-content-between align-items-center">
-            {featuresContent.map(({ icon: Icon, para, title }) => (
+            {featuresContent?.map(({ icon: Icon, para, title }) => (
               <Col lg={4} key={title}>
-                <Card className="d-flex justify-content-between align-items-start rounded-3 border-light-subtle  px-3 py-2">
+                <Card className="d-flex justify-content-between align-items-start rounded-3 border-light-subtle px-3 py-2 mb-3">
                   <div className="bg-body-secondary p-2 my-2">
                     <Icon color="#059669" size="25px" />
                   </div>
@@ -120,6 +120,42 @@ const LandingPage = () => {
 
       {/* ======= STEPS SECTION ==== */}
       <StepsSection />
+
+      {/* ======= SHOPPERS SECTION ==== */}
+      <Container className="py-5 mt-5">
+        <Row className="g-4 align-items-center justify-content-center">
+          <div className="my-5">
+            <h2 className="fw-bold text-center ">
+              Everything you need to shop smarter
+            </h2>
+            <p className="fs-5 text-center text-secondary">
+              Simple yet powerful features to make grocery shopping a breeze
+            </p>
+          </div>
+
+          <Row className="justify-content-between align-items-center">
+            {shoppersContent.map(({ icon, para, title, job }) => (
+              <Col lg={4} key={title}>
+                <Card
+                  className="d-flex justify-content-between align-items-start py-3 px-2 border-light-subtle mb-3"
+                  style={{ height: "14rem" }}
+                >
+                  <div className="d-flex align align-items-center justify-content-between">
+                    <div className="bg-body-secondary rounded-circle px-4 py-3">
+                      <p className="m-0 fw-bold text-success">{icon}</p>
+                    </div>
+                    <div className="ms-3 mt-2">
+                      <h5 className="mb-1">{title}</h5>
+                      <p className="text-secondary">{job}</p>
+                    </div>
+                  </div>
+                  <p className="text-secondary my-2 fst-italic">{`"${para}"`}</p>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Row>
+      </Container>
 
       {/* ======= SAVINGS SECTION ==== */}
       <section className="bg-body-secondary py-5">
@@ -159,42 +195,6 @@ const LandingPage = () => {
           </Row>
         </Container>
       </section>
-
-      {/* ======= SHOPPERS SECTION ==== */}
-      <Container className="py-5 mt-5">
-        <Row className="g-4 align-items-center justify-content-center">
-          <div className="my-5">
-            <h2 className="fw-bold text-center ">
-              Everything you need to shop smarter
-            </h2>
-            <p className="fs-5 text-center text-secondary">
-              Simple yet powerful features to make grocery shopping a breeze
-            </p>
-          </div>
-
-          <Row className="justify-content-between align-items-center">
-            {shoppersContent.map(({ icon, para, title, job }) => (
-              <Col lg={4} key={title}>
-                <Card
-                  className="d-flex justify-content-between align-items-start py-3 px-2 border-light-subtle"
-                  style={{ height: "14rem" }}
-                >
-                  <div className="d-flex align align-items-center justify-content-between">
-                    <div className="bg-body-secondary rounded-circle px-4 py-3">
-                      <p className="m-0 fw-bold text-success">{icon}</p>
-                    </div>
-                    <div className="ms-3 mt-2">
-                      <h5 className="mb-1">{title}</h5>
-                      <p className="text-secondary">{job}</p>
-                    </div>
-                  </div>
-                  <p className="text-secondary my-2 fst-italic">{`"${para}"`}</p>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Row>
-      </Container>
 
       {/* ======= FOOTER SECTION ==== */}
       <footer className="bg-success text-white text-center py-5">

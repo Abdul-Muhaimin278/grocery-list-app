@@ -72,7 +72,7 @@ const LoginPage = () => {
                   id="email"
                   type="email"
                   name="email"
-                  value={authData.email}
+                  value={authData?.email}
                   placeholder="you@example.com"
                   required
                   className="input-border"
@@ -89,7 +89,7 @@ const LoginPage = () => {
                 <input
                   id="password"
                   name="password"
-                  value={authData.password}
+                  value={authData?.password}
                   type={showPassword ? "text" : "password"}
                   required
                   className="input-border"

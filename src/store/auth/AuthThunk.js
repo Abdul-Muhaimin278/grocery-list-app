@@ -20,13 +20,13 @@ export const signUpAction = createAsyncThunk(
       const userDocRef = doc(db, "users", userCredential.user.uid);
       await setDoc(userDocRef, {
         createdAt: Date.now(),
-        uid: userCredential.user.uid,
-        email: userCredential.user.email,
+        uid: userCredential?.user?.uid,
+        email: userCredential?.user?.email,
         password,
         username,
       });
 
-      const uid = userCredential.user.uid;
+      const uid = userCredential?.user?.uid;
 
       return { email, uid };
     } catch (err) {
@@ -44,7 +44,7 @@ export const signIn = createAsyncThunk(
         email,
         password
       );
-      const uid = userCredential.user.uid;
+      const uid = userCredential?.user?.uid;
 
       return { email, uid };
     } catch (err) {

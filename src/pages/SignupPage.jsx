@@ -80,7 +80,7 @@ const SignupPage = () => {
                   id="username"
                   type="username"
                   name="username"
-                  value={AuthData.username}
+                  value={AuthData?.username}
                   placeholder="John Doe"
                   required
                   className="input-border"
@@ -98,7 +98,7 @@ const SignupPage = () => {
                   id="email"
                   type="email"
                   name="email"
-                  value={AuthData.email}
+                  value={AuthData?.email}
                   placeholder="you@example.com"
                   required
                   className="input-border"
@@ -115,7 +115,7 @@ const SignupPage = () => {
                 <input
                   id="password"
                   name="password"
-                  value={AuthData.password}
+                  value={AuthData?.password}
                   type={showPassword ? "text" : "password"}
                   required
                   className="input-border"
@@ -143,7 +143,7 @@ const SignupPage = () => {
                   id="confirm"
                   type="password"
                   name="confirmPassword"
-                  value={AuthData.confirmPassword}
+                  value={AuthData?.confirmPassword}
                   required
                   className="input-border"
                   onChange={handleAuthData}

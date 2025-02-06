@@ -72,22 +72,14 @@
   border: 1px solid #059669 !important;
 }
 
-/* button {
-  transition: background-color 0.3s ease;
+@media (max-width: 860.98px) {
+  .ellipses {
+    display: none !important;
+  }
 }
-
-button:hover {
-  background-color: #047a4d;
+@media (max-width: 589.98px) {
+  .steps-section {
+    width: 90% !important;
+    margin: 0 auto !important;
+  }
 }
-
-button:focus {
-  box-shadow: none;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-} */

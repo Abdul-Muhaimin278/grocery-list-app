@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { LuShoppingBasket } from "react-icons/lu";
+import { LuMenu, LuShoppingBasket } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Container, Row, Spinner } from "reactstrap";
 import { signOutAction } from "../store/auth/AuthThunk";
 
-const Header = ({ layout }) => {
+const Header = ({ layout, toggleSidebar, isMobile }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { status, user } = useSelector((state) => state.auth);
@@ -26,14 +26,18 @@ const Header = ({ layout }) => {
   return (
     <>
       <Container fluid className="border-bottom">
-        <nav className="container px-4 py-3">
+        <nav className="px-sm-0 px-md-4 py-3">
           <Row className=" justify-content-between align-items-center">
             <Col
               className="d-flex justify-content-start align-items-center"
               style={{ cursor: "pointer" }}
             >
-              <LuShoppingBasket size="32px" color="#059669" className="mb-2" />
-              <h5 className="mx-2 fw-bold" onClick={handleNavBarBrand}>
+              {isMobile ? (
+                <LuMenu size={32} color="#059669" onClick={toggleSidebar} />
+              ) : (
+                <LuShoppingBasket size={32} color="#059669" />
+              )}
+              <h5 className="mx-2 mb-0 fw-bold" onClick={handleNavBarBrand}>
                 GrocerySave
               </h5>
             </Col>
@@ -53,7 +57,7 @@ const Header = ({ layout }) => {
                 </>
               ) : (
                 <>
-                  <p className="m-0">Welcome, {user}</p>
+                  <p className="mb-0 text-truncate ellipses">Welcome, {user}</p>
                   <Button
                     color="success"
                     onClick={handleLogout}

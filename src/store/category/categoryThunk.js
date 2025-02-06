@@ -7,6 +7,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -18,8 +19,8 @@ export const fetchCategory = createAsyncThunk(
       const q = query(categoriesRef, where("createdBy", "==", uid));
       const querySnapshot = await getDocs(q);
 
-      const categories = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
+      const categories = querySnapshot?.docs?.map((doc) => ({
+        id: doc?.id,
         ...doc.data(),
       }));
 
@@ -36,7 +37,10 @@ export const fetchLists = createAsyncThunk(
     try {
       const listsRef = collection(doc(db, "categories", categoryId), "lists");
       const snapshot = await getDocs(listsRef);
-      const lists = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const lists = snapshot?.docs?.map((doc) => ({
+        id: doc?.id,
+        ...doc.data(),
+      }));
 
       return lists;
     } catch (err) {
@@ -53,13 +57,30 @@ export const addCategory = createAsyncThunk(
 
       const payload = {
         name: categoryName,
-        categoryId: docRef.id,
+        categoryId: docRef?.id,
         createdBy: uid,
         createdAt: Date.now(),
       };
       await setDoc(docRef, payload);
 
       return payload;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const updateCategory = createAsyncThunk(
+  "category/updateCategory",
+  async ({ categoryId, name }, { rejectWithValue }) => {
+    try {
+      const docRef = doc(db, "categories", categoryId);
+      const payload = {
+        updatedAt: Date.now(),
+        name,
+      };
+      await updateDoc(docRef, payload);
+      return { categoryId, name };
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -88,7 +109,7 @@ export const addList = createAsyncThunk(
       const listsRef = collection(doc(db, "categories", categoryId), "lists");
 
       const listDocRef = doc(listsRef);
-      const listId = listDocRef.id;
+      const listId = listDocRef?.id;
 
       await setDoc(listDocRef, {
         ...listData,
@@ -98,6 +119,24 @@ export const addList = createAsyncThunk(
       });
 
       return { ...listData, listId, createdBy: categoryId };
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const updateList = createAsyncThunk(
+  "category/updateList",
+  async ({ listData, categoryId, listId }, { rejectWithValue }) => {
+    try {
+      const listDocRef = doc(db, "categories", categoryId, "lists", listId);
+      await updateDoc(listDocRef, {
+        listTitle: listData?.listTitle,
+        items: listData?.items,
+        updatedAt: Date.now(),
+      });
+
+      return { ...listData, listId };
     } catch (err) {
       return rejectWithValue(err.message);
     }
