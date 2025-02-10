@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addCategory,
-  addList,
   fetchCategory,
   fetchLists,
   removeCategory,
   removeList,
   updateCategory,
   updateList,
+  updateCheckedValue,
 } from "./categoryThunk";
 
 const initialState = {
@@ -15,10 +15,15 @@ const initialState = {
   lists: [],
   status: "idle",
 };
+
 export const categoryReducer = createSlice({
   name: "categories",
   initialState,
-  reducer: {},
+  reducers: {
+    setLists: (state, action) => {
+      state.lists = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCategory.pending, (state) => {
@@ -34,8 +39,7 @@ export const categoryReducer = createSlice({
       .addCase(fetchLists.pending, (state) => {
         state.status = "fetching lists";
       })
-      .addCase(fetchLists.fulfilled, (state, action) => {
-        state.lists = action.payload;
+      .addCase(fetchLists.fulfilled, (state) => {
         state.status = "succeeded";
       })
       .addCase(fetchLists.rejected, (state) => {
@@ -49,16 +53,6 @@ export const categoryReducer = createSlice({
         state.status = "succeeded";
       })
       .addCase(addCategory.rejected, (state) => {
-        state.status = "failed";
-      })
-      .addCase(addList.pending, (state) => {
-        state.status = "adding lists";
-      })
-      .addCase(addList.fulfilled, (state, action) => {
-        state.lists.push(action.payload);
-        state.status = "succeeded";
-      })
-      .addCase(addList.rejected, (state) => {
         state.status = "failed";
       })
       .addCase(updateCategory.pending, (state) => {
@@ -90,6 +84,19 @@ export const categoryReducer = createSlice({
       .addCase(updateList.rejected, (state) => {
         state.status = "failed";
       })
+      .addCase(updateCheckedValue.pending, (state) => {
+        state.status = "updating checked value";
+      })
+      .addCase(updateCheckedValue.fulfilled, (state, action) => {
+        const { listId, updatedItems } = action.payload;
+        state.lists = state.lists.map((list) =>
+          list.listId === listId ? { ...list, items: updatedItems } : list
+        );
+        state.status = "succeeded";
+      })
+      .addCase(updateCheckedValue.rejected, (state) => {
+        state.status = "failed";
+      })
       .addCase(removeCategory.pending, (state) => {
         state.status = "removing";
       })
@@ -111,8 +118,11 @@ export const categoryReducer = createSlice({
           (list) => list?.listId !== action.payload
         );
       })
-      .addCase(removeList.rejected, (state, action) => {
-        state.error = action.payload;
+      .addCase(removeList.rejected, (state) => {
+        state.status = "failed";
       });
   },
 });
+
+export const { setLists } = categoryReducer.actions;
+export default categoryReducer.reducer;

@@ -8,12 +8,12 @@ import {
   Spinner,
   Button,
 } from "reactstrap";
-import { CheckboxItem } from "../../components/CheckBoxItems";
 import ListModal from "./ListModal";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchLists, removeList } from "../../store/category/categoryThunk";
+import { CheckboxItem } from "../../components/CheckBoxItems";
 
 const CategoryLists = () => {
   const dispatch = useDispatch();
@@ -23,10 +23,6 @@ const CategoryLists = () => {
   const [modal, setModal] = useState(false);
   const [selectedList, setSelectedList] = useState(null);
   const [listDel, setListDel] = useState(null);
-
-  useEffect(() => {
-    dispatch(fetchLists(categoryId));
-  }, [categoryId, dispatch]);
 
   const handleRemoveList = (listId) => {
     setListDel(listId);
@@ -39,6 +35,10 @@ const CategoryLists = () => {
     setSelectedList(list);
     setModal(true);
   };
+
+  useEffect(() => {
+    dispatch(fetchLists(categoryId));
+  }, [categoryId, dispatch]);
 
   return (
     <section className="mx-2">
@@ -84,12 +84,17 @@ const CategoryLists = () => {
                       </Button>
                     </div>
                   </div>
-                  {items?.map((item, index) => (
+                  {items?.map(({ name, checked }, index) => (
                     <List key={index}>
                       <ListGroupItem tag="label" className="py-2">
                         <CheckboxItem
-                          label={item}
-                          id={`${listId}-${listTitle}-${item}-${index}`}
+                          key={index}
+                          name={name}
+                          id={`${listId}-${listTitle}-${index}`}
+                          checked={checked}
+                          categoryId={categoryId}
+                          listId={listId}
+                          s
                         />
                       </ListGroupItem>
                     </List>

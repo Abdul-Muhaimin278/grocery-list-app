@@ -4,12 +4,15 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
+  onSnapshot,
   query,
   setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
+import { setLists } from "./categorySlice";
 
 export const fetchCategory = createAsyncThunk(
   "category/fetchCategory",
@@ -33,16 +36,21 @@ export const fetchCategory = createAsyncThunk(
 
 export const fetchLists = createAsyncThunk(
   "category/fetchLists",
-  async (categoryId, { rejectWithValue }) => {
+  async (categoryId, { dispatch, rejectWithValue }) => {
     try {
-      const listsRef = collection(doc(db, "categories", categoryId), "lists");
-      const snapshot = await getDocs(listsRef);
-      const lists = snapshot?.docs?.map((doc) => ({
-        id: doc?.id,
-        ...doc.data(),
-      }));
+      const listsRef = collection(db, "categories", categoryId, "lists");
 
-      return lists;
+      return new Promise((resolve) => {
+        onSnapshot(listsRef, (snapshot) => {
+          const lists = snapshot.docs.map((doc) => ({
+            listId: doc.id,
+            ...doc.data(),
+          }));
+
+          dispatch(setLists(lists));
+          resolve();
+        });
+      });
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -139,6 +147,29 @@ export const updateList = createAsyncThunk(
       return { ...listData, listId };
     } catch (err) {
       return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const updateCheckedValue = createAsyncThunk(
+  "lists/updateCheckedValue",
+  async ({ categoryId, listId, name, checked }, { rejectWithValue }) => {
+    try {
+      const docRef = doc(db, "categories", categoryId, "lists", listId);
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) return rejectWithValue("Document not found");
+
+      const updatedItems = docSnap
+        .data()
+        .items.map((item) =>
+          item.name === name ? { ...item, checked } : item
+        );
+
+      await updateDoc(docRef, { items: updatedItems, updatedAt: Date.now() });
+
+      return { listId, updatedItems };
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );

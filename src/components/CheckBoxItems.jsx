@@ -1,9 +1,20 @@
-import { useState } from "react";
-import { LuCircleCheckBig } from "react-icons/lu";
-import { LuCircle } from "react-icons/lu";
+import { LuCircleCheckBig, LuCircle } from "react-icons/lu";
+import { useDispatch } from "react-redux";
+import { updateCheckedValue } from "../store/category/categoryThunk";
 
-export const CheckboxItem = ({ label, id }) => {
-  const [checked, setChecked] = useState(false);
+export const CheckboxItem = ({ name, id, checked, categoryId, listId }) => {
+  const dispatch = useDispatch();
+
+  const handleToggleChecked = () => {
+    dispatch(
+      updateCheckedValue({
+        categoryId,
+        listId,
+        name,
+        checked: !checked,
+      })
+    );
+  };
 
   return (
     <div className="checkbox-container">
@@ -11,7 +22,7 @@ export const CheckboxItem = ({ label, id }) => {
         type="checkbox"
         id={id}
         checked={checked}
-        onChange={() => setChecked(!checked)}
+        onChange={handleToggleChecked}
         className="d-none"
       />
       <label
@@ -21,14 +32,14 @@ export const CheckboxItem = ({ label, id }) => {
         {checked ? (
           <LuCircleCheckBig color="#10B981" size="20px" />
         ) : (
-          <LuCircle color="#ccc" size="20px" className="" />
+          <LuCircle color="#ccc" size="20px" />
         )}
         <p
           className={`ms-2 mb-0 ${
             checked && "text-decoration-line-through text-secondary"
           }`}
         >
-          {label}
+          {name}
         </p>
       </label>
     </div>

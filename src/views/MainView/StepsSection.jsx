@@ -79,7 +79,9 @@ const StepsSection = () => {
               <button
                 key={index}
                 className={`btn border-0 text-start px-3 py-2 rounded-3 d-flex align-items-center ${
-                  activeStep === index && activeBtnClass
+                  activeStep === index
+                    ? activeBtnClass
+                    : "shadow-sm border-light-subtle"
                 }`}
                 onClick={() => setActiveStep(index)}
               >
@@ -116,40 +118,41 @@ const StepsSection = () => {
           className="shadow-lg h-100 rounded-4 p-0 ms-lg-5 mx-auto"
         >
           <Card className="border-light-subtle rounded-4 w-100">
-            <CardBody className="py-5 px-4">
+            <CardBody className="p-3 p-sm-4 ">
               <h4 className="fw-bold">{steps[activeStep].title}</h4>
               <p>{steps[activeStep].content}</p>
-              <Row className="d-flex justify-content-between mt-4">
+              <Row className="justify-content-between mt-4">
                 {steps[activeStep].triIcons.map(({ icon: Icon, text }) => (
-                  <Col key={text} className="text-center">
-                    <Card className="d-flex flex-column align-items-center justify-content-center bg-body-tertiary py-4 px-2 rounded shadow-sm border-0">
-                      <div className="p-2 rounded-circle bg-white">
-                        <Icon size="24" color="#059669" />
-                      </div>
-                      <small className="mt-2 mb-0 fw-medium text-secondary">
-                        {text}
-                      </small>
-                    </Card>
+                  <Col xs={4} key={text} className="text-center p-2 p-sm-3">
+                    <div>
+                      <Card className="d-flex flex-shrink-0 flex-column align-items-center justify-content-center bg-body-tertiary  p-3 rounded shadow-sm border-0">
+                        <div className="p-2 rounded-circle bg-white">
+                          <Icon size="24" color="#059669" />
+                        </div>
+                        <small className="mt-2 mb-0 fw-medium text-secondary">
+                          {text}
+                        </small>
+                      </Card>
+                    </div>
                   </Col>
                 ))}
               </Row>
               <div className="d-flex justify-content-between mt-4">
-                {activeStep > 0 && (
-                  <Button
-                    color="secondary"
-                    onClick={() => setActiveStep(activeStep - 1)}
-                  >
-                    Previous Step
-                  </Button>
-                )}
-                {activeStep < steps.length - 1 && (
-                  <Button
-                    color="success"
-                    onClick={() => setActiveStep(activeStep + 1)}
-                  >
-                    Next Step
-                  </Button>
-                )}
+                <Button
+                  color="secondary"
+                  onClick={() => setActiveStep(activeStep - 1)}
+                  disabled={activeStep > 0}
+                >
+                  Previous Step
+                </Button>
+
+                <Button
+                  color="success"
+                  onClick={() => setActiveStep(activeStep + 1)}
+                  disabled={activeStep >= steps.length - 1}
+                >
+                  Next Step
+                </Button>
               </div>
             </CardBody>
           </Card>

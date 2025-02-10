@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { LuMenu, LuShoppingBasket } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -28,10 +27,7 @@ const Header = ({ layout, toggleSidebar, isMobile }) => {
       <Container fluid className="border-bottom">
         <nav className="px-sm-0 px-md-4 py-3">
           <Row className=" justify-content-between align-items-center">
-            <Col
-              className="d-flex justify-content-start align-items-center"
-              style={{ cursor: "pointer" }}
-            >
+            <Col className="d-flex justify-content-start align-items-center cursor-pointer">
               {isMobile ? (
                 <LuMenu size={32} color="#059669" onClick={toggleSidebar} />
               ) : (

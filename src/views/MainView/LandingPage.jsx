@@ -70,23 +70,33 @@ const LandingPage = () => {
               Watch Demo
             </Button>
           </div>
-          <div
+
+          <Row
             className="d-flex justify-content-center
-           align-items-center"
+           align-items-center my-3"
           >
-            <div className="d-flex align-items-center mx-4 text-secondary">
-              <LuStar color="#facc15" size="20px" className="me-2" />
+            <Col
+              sm={4}
+              className="d-flex align-items-center justify-content-center my-2 flex-shrink-0 text-secondary"
+            >
+              <LuStar color="#facc15" size="1.25rem" className="me-2 icon" />
               4.9/5 rating
-            </div>
-            <div className="d-flex align-items-center mx-4 text-secondary ">
-              <LuUsers color="#059669" size="20px" className="me-2" />
+            </Col>
+            <Col
+              sm={4}
+              className="d-flex align-items-center justify-content-center my-2 flex-shrink-0 text-secondary "
+            >
+              <LuUsers color="#059669" size="1.25rem" className="me-2 icon" />
               50K+ users
-            </div>
-            <div className="d-flex align-items-center mx-4 text-secondary ">
-              <LuShield color="#059669" size="20px" className="me-2" />
+            </Col>
+            <Col
+              sm={4}
+              className="d-flex align-items-center justify-content-center my-2 flex-shrink-0 text-secondary "
+            >
+              <LuShield color="#059669" size="1.25rem" className="me-2 icon" />
               Secure & Private
-            </div>
-          </div>
+            </Col>
+          </Row>
         </div>
       </section>
 

@@ -24,7 +24,7 @@ const ListModal = ({ isOpen, toggle, catId, existingList }) => {
 
   const addItem = () => {
     if (item.trim()) {
-      setItems([...items, item]);
+      setItems([...items, { name: item, checked: false }]);
       setItem("");
     }
   };
@@ -32,7 +32,7 @@ const ListModal = ({ isOpen, toggle, catId, existingList }) => {
   const clearForm = () => {
     setListTitle("");
     setItem("");
-    setItems("");
+    setItems([]);
   };
 
   const removeItem = (index) => {
@@ -101,12 +101,12 @@ const ListModal = ({ isOpen, toggle, catId, existingList }) => {
           {items.length === 0 ? (
             <p className="text-center text-muted">No items added yet</p>
           ) : (
-            items?.map((i, idx) => (
+            items.map(({ name }, idx) => (
               <div
                 key={idx}
                 className="d-flex justify-content-between align-items-center p-2 mb-2 bg-white border rounded"
               >
-                <span>{i}</span>
+                <span>{name}</span>
                 <Button close onClick={() => removeItem(idx)}></Button>
               </div>
             ))

@@ -127,7 +127,7 @@ const SignupPage = () => {
                 >
                   <div
                     onClick={() => setShowPassword(!showPassword)}
-                    style={{ cursor: "pointer" }}
+                    className="cursor-pointer"
                   >
                     {showPassword ? (
                       <LuEyeOff className="h-5 w-5 text-gray-400" />

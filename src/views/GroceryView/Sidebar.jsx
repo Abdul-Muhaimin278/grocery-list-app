@@ -69,7 +69,6 @@ const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
   }, [status, dispatch, uid]);
 
   if (isMobile) {
-    // Render Offcanvas on Mobile
     return (
       <Offcanvas
         isOpen={isOpen}
@@ -98,7 +97,6 @@ const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
     );
   }
 
-  // Render Sidebar on Larger Screens
   return (
     <div className="border-end sidebar" style={{ width: "220px" }}>
       <CategoryContent
@@ -119,7 +117,5 @@ const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
     </div>
   );
 };
-
-// Extracted Category Content for Reusability
 
 export default Sidebar;

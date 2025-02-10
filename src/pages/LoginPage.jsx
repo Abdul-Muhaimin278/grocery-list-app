@@ -59,7 +59,10 @@ const LoginPage = () => {
         <h2 className="my-2 fx-bold text-dark">Welcome Back</h2>
       </div>
 
-      <Card className="shadow-sm border-light p-4" style={{ width: "450px" }}>
+      <Card
+        className="shadow-sm border-light p-4 auth-card"
+        style={{ width: "450px" }}
+      >
         <CardBody>
           <Form onSubmit={handleLogin}>
             <FormGroup className="mb-4">
@@ -96,8 +99,8 @@ const LoginPage = () => {
                   onChange={handleAuthData}
                 />
                 <div
+                  className="cursor-pointer"
                   onClick={() => setShowPassword(!showPassword)}
-                  style={{ cursor: "pointer" }}
                 >
                   {showPassword ? (
                     <LuEyeOff size="20px" color="#aaa" />
