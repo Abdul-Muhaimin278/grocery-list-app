@@ -2,16 +2,12 @@ import { LuMenu, LuShoppingBasket } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Container, Row, Spinner } from "reactstrap";
-import { signOutAction } from "../store/auth/AuthThunk";
+import { signOutAction } from "../store/auth/authThunk.js";
 
 const Header = ({ layout, toggleSidebar, isMobile }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { status, user } = useSelector((state) => state.auth);
-
-  const handleNavBarBrand = () => {
-    navigate("/");
-  };
 
   const handleLogout = () => {
     dispatch(signOutAction()).finally(() => navigate("/auth/login"));
@@ -33,9 +29,7 @@ const Header = ({ layout, toggleSidebar, isMobile }) => {
               ) : (
                 <LuShoppingBasket size={32} color="#059669" />
               )}
-              <h5 className="mx-2 mb-0 fw-bold" onClick={handleNavBarBrand}>
-                GrocerySave
-              </h5>
+              <h5 className="mx-2 mb-0 fw-bold">GrocerySave</h5>
             </Col>
             <Col className="d-flex justify-content-end align-items-center gap-2">
               {layout === "MainLayout" ? (

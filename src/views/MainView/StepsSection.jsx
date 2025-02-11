@@ -141,7 +141,7 @@ const StepsSection = () => {
                 <Button
                   color="secondary"
                   onClick={() => setActiveStep(activeStep - 1)}
-                  disabled={activeStep > 0}
+                  disabled={activeStep <= 0}
                 >
                   Previous Step
                 </Button>
