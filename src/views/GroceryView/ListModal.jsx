@@ -23,8 +23,10 @@ const ListModal = ({ isOpen, toggle, catId, existingList }) => {
   const [items, setItems] = useState([]);
 
   const addItem = () => {
+    const itemId = `${listTitle}-${Date.now()}`;
+
     if (item.trim()) {
-      setItems([...items, { name: item, checked: false }]);
+      setItems([...items, { name: item, checked: false, itemId }]);
       setItem("");
     }
   };
@@ -115,20 +117,25 @@ const ListModal = ({ isOpen, toggle, catId, existingList }) => {
       </ModalBody>
 
       <ModalFooter className="border-0">
-        <Button
-          color="success"
-          block
-          onClick={handleSaveList}
-          disabled={status === "adding lists" || status === "updating list"}
-        >
-          {status === "adding lists" || status === "updating list" ? (
-            <Spinner size="sm" />
-          ) : existingList ? (
-            "Update List"
-          ) : (
-            "Create List"
-          )}
-        </Button>
+        {existingList ? (
+          <Button
+            color="success"
+            block
+            onClick={handleSaveList}
+            disabled={status === "updating list"}
+          >
+            {status === "updating list" ? <Spinner size="sm" /> : "Update List"}
+          </Button>
+        ) : (
+          <Button
+            color="success"
+            block
+            onClick={handleSaveList}
+            disabled={status === "adding list"}
+          >
+            {status === "adding lists" ? <Spinner size="sm" /> : "Create List"}
+          </Button>
+        )}
       </ModalFooter>
     </Modal>
   );

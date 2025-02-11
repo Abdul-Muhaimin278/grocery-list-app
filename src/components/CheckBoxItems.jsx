@@ -10,7 +10,7 @@ export const CheckboxItem = ({ name, id, checked, categoryId, listId }) => {
       updateCheckedValue({
         categoryId,
         listId,
-        name,
+        id,
         checked: !checked,
       })
     );

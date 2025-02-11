@@ -76,22 +76,25 @@ const LandingPage = () => {
            align-items-center my-3"
           >
             <Col
+              xs={12}
               sm={4}
-              className="d-flex align-items-center justify-content-center my-2 flex-shrink-0 text-secondary"
+              className="d-flex align-items-center justify-content-center justify-content-sm-end  my-2 flex-shrink-0 text-secondary"
             >
               <LuStar color="#facc15" size="1.25rem" className="me-2 icon" />
               4.9/5 rating
             </Col>
             <Col
+              xs={12}
               sm={4}
-              className="d-flex align-items-center justify-content-center my-2 flex-shrink-0 text-secondary "
+              className="d-flex align-items-center justify-content-center justify-content-sm-center my-2 flex-shrink-0 text-secondary "
             >
               <LuUsers color="#059669" size="1.25rem" className="me-2 icon" />
               50K+ users
             </Col>
             <Col
+              xs={12}
               sm={4}
-              className="d-flex align-items-center justify-content-center my-2 flex-shrink-0 text-secondary "
+              className="d-flex align-items-center justify-content-center justify-content-sm-start my-2 flex-shrink-0 text-secondary "
             >
               <LuShield color="#059669" size="1.25rem" className="me-2 icon" />
               Secure & Private

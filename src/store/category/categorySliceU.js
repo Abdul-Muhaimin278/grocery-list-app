@@ -8,12 +8,12 @@ import {
   updateCategory,
   updateList,
   updateCheckedValue,
-  addList,
-} from "./categoryThunk";
+} from "./categoryThunkU";
 
 const initialState = {
   categories: [],
   lists: [],
+  items: [],
   status: "idle",
 };
 
@@ -23,6 +23,9 @@ export const categoryReducer = createSlice({
   reducers: {
     setLists: (state, action) => {
       state.lists = action.payload;
+    },
+    setItems: (state, action) => {
+      state.items = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -40,8 +43,9 @@ export const categoryReducer = createSlice({
       .addCase(fetchLists.pending, (state) => {
         state.status = "fetching lists";
       })
-      .addCase(fetchLists.fulfilled, (state) => {
+      .addCase(fetchLists.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.lists = action.payload;
       })
       .addCase(fetchLists.rejected, (state) => {
         state.status = "failed";
@@ -56,15 +60,6 @@ export const categoryReducer = createSlice({
       .addCase(addCategory.rejected, (state) => {
         state.status = "failed";
       })
-      .addCase(addList.pending, (state) => {
-        state.status = "adding list";
-      })
-      .addCase(addList.fulfilled, (state) => {
-        state.status = "succeeded";
-      })
-      .addCase(addList.rejected, (state) => {
-        state.status = "failed";
-      })
       .addCase(updateCategory.pending, (state) => {
         state.status = "updating";
       })
@@ -74,7 +69,7 @@ export const categoryReducer = createSlice({
           (cat) => cat?.categoryId === categoryId
         );
         state.status = "succeeded";
-        category.name = name;
+        if (category) category.name = name;
       })
       .addCase(updateCategory.rejected, (state) => {
         state.status = "failed";
@@ -123,7 +118,7 @@ export const categoryReducer = createSlice({
         state.status = "removing list";
       })
       .addCase(removeList.fulfilled, (state, action) => {
-        state.status = "succeeded list";
+        state.status = "succeeded";
         state.lists = state.lists?.filter(
           (list) => list?.listId !== action.payload
         );
@@ -134,5 +129,5 @@ export const categoryReducer = createSlice({
   },
 });
 
-export const { setLists } = categoryReducer.actions;
+export const { setLists, setItems } = categoryReducer.actions;
 export default categoryReducer.reducer;

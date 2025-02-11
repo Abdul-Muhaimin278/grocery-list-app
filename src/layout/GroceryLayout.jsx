@@ -9,10 +9,6 @@ const GroceryLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  if (!uid) {
-    return <Navigate to="/auth/login" replace />;
-  }
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -22,6 +18,9 @@ const GroceryLayout = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  if (!uid) {
+    return <Navigate to="/auth/login" replace />;
+  }
   return (
     <div className="d-flex">
       <Sidebar

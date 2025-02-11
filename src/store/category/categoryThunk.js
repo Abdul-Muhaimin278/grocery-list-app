@@ -115,7 +115,6 @@ export const addList = createAsyncThunk(
   async ({ listData, categoryId }, { rejectWithValue }) => {
     try {
       const listsRef = collection(doc(db, "categories", categoryId), "lists");
-
       const listDocRef = doc(listsRef);
       const listId = listDocRef?.id;
 
@@ -153,7 +152,7 @@ export const updateList = createAsyncThunk(
 
 export const updateCheckedValue = createAsyncThunk(
   "lists/updateCheckedValue",
-  async ({ categoryId, listId, name, checked }, { rejectWithValue }) => {
+  async ({ categoryId, listId, id, checked }, { rejectWithValue }) => {
     try {
       const docRef = doc(db, "categories", categoryId, "lists", listId);
       const docSnap = await getDoc(docRef);
@@ -162,7 +161,7 @@ export const updateCheckedValue = createAsyncThunk(
       const updatedItems = docSnap
         .data()
         .items.map((item) =>
-          item.name === name ? { ...item, checked } : item
+          item.itemId === id ? { ...item, checked } : item
         );
 
       await updateDoc(docRef, { items: updatedItems, updatedAt: Date.now() });

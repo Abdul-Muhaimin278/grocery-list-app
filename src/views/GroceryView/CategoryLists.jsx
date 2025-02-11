@@ -84,13 +84,13 @@ const CategoryLists = () => {
                       </Button>
                     </div>
                   </div>
-                  {items?.map(({ name, checked }, index) => (
+                  {items?.map(({ itemId, name, checked }, index) => (
                     <List key={index}>
                       <ListGroupItem tag="label" className="py-2">
                         <CheckboxItem
                           key={index}
                           name={name}
-                          id={`${listId}-${listTitle}-${index}`}
+                          id={itemId}
                           checked={checked}
                           categoryId={categoryId}
                           listId={listId}
